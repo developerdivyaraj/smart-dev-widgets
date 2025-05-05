@@ -1,0 +1,26 @@
+name: smart_dev_widgets
+description: A collection of reusable Flutter widgets for common UI components by SmartDev.
+version: 0.0.1
+homepage: https://github.com/yourusername/smart_dev_widgets
+repository: https://github.com/yourusername/smart_dev_widgets
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+  flutter: '>=3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  auto_size_text: ^3.0.0
+  flutter_screenutil: ^5.9.0
+  cached_network_image: ^3.3.0 # Added for SmartImage network images
+  flutter_svg: ^2.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  assets:
+    - assets/images/ic_placeholder.png
