@@ -102,8 +102,19 @@ class SmartDevWidgetsConfig {
   BoxShape imageShape = BoxShape.rectangle;
   String? imagePlaceholderPath = 'assets/images/placeholder.png';
   Color imageLoadingColor = Colors.blue;
-  double imageHeight = 100.w; // Added
-  double imageWidth = 100.w; // A
+  double imageHeight = 100.w;
+  double imageWidth = 100.w;
+
+  // Default values for SmartExpansionTile
+  EdgeInsetsGeometry? expansionTilePadding;
+  EdgeInsetsGeometry? expansionTileMargin;
+  Color? expansionTileBackgroundColor;
+  String expansionTileTrailingExpandedIconPath = 'assets/images/arrow_up.svg';
+  String expansionTileTrailingCollapsedIconPath = 'assets/images/arrow_down.svg';
+  bool expansionTileTrailingCollapsedIconVisible = true;
+  bool expansionTileUsePageStorage = true;
+  Duration expansionTileAnimationDuration = const Duration(milliseconds: 200);
+  Curve expansionTileAnimationCurve = Curves.easeInOut;
 
   // Initialize defaults
   void initialize({
@@ -184,6 +195,16 @@ class SmartDevWidgetsConfig {
     Color? imageLoadingColor,
     double? imageHeight, // Added
     double? imageWidth, // Added
+    // SmartExpansionTile
+    EdgeInsetsGeometry? expansionTilePadding,
+    EdgeInsetsGeometry? expansionTileMargin,
+    Color? expansionTileBackgroundColor,
+    String? expansionTileTrailingExpandedIconPath,
+    String? expansionTileTrailingCollapsedIconPath,
+    bool? expansionTileTrailingCollapsedIconVisible,
+    bool? expansionTileUsePageStorage,
+    Duration? expansionTileAnimationDuration,
+    Curve? expansionTileAnimationCurve,
   }) {
     // Update SmartColumn defaults
     this.columnMainAxisSize = columnMainAxisSize ?? this.columnMainAxisSize;
@@ -267,5 +288,19 @@ class SmartDevWidgetsConfig {
     this.imageLoadingColor = imageLoadingColor ?? this.imageLoadingColor;
     this.imageHeight = imageHeight ?? this.imageHeight; // Added
     this.imageWidth = imageWidth ?? this.imageWidth; // Added
+
+    // Update SmartExpansionTile defaults
+    this.expansionTilePadding = expansionTilePadding ?? this.expansionTilePadding;
+    this.expansionTileMargin = expansionTileMargin ?? this.expansionTileMargin;
+    this.expansionTileBackgroundColor = expansionTileBackgroundColor ?? this.expansionTileBackgroundColor;
+    this.expansionTileTrailingExpandedIconPath =
+        expansionTileTrailingExpandedIconPath ?? this.expansionTileTrailingExpandedIconPath;
+    this.expansionTileTrailingCollapsedIconPath =
+        expansionTileTrailingCollapsedIconPath ?? this.expansionTileTrailingCollapsedIconPath;
+    this.expansionTileTrailingCollapsedIconVisible =
+        expansionTileTrailingCollapsedIconVisible ?? this.expansionTileTrailingCollapsedIconVisible;
+    this.expansionTileUsePageStorage = expansionTileUsePageStorage ?? this.expansionTileUsePageStorage;
+    this.expansionTileAnimationDuration = expansionTileAnimationDuration ?? this.expansionTileAnimationDuration;
+    this.expansionTileAnimationCurve = expansionTileAnimationCurve ?? this.expansionTileAnimationCurve;
   }
 }

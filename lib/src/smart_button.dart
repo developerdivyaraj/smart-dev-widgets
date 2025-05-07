@@ -101,7 +101,7 @@ class SmartButton extends StatelessWidget {
                 boxShadow: [
                   if (isShadow)
                     BoxShadow(
-                      color: (activeBackgroundColor ?? config.buttonActiveBackgroundColor).withOpacity(0.9),
+                      color: (activeBackgroundColor ?? config.buttonActiveBackgroundColor).withValues(alpha: 0.9),
                       blurRadius: 10.r,
                       spreadRadius: -8.0,
                       offset: const Offset(0.0, 8.0),

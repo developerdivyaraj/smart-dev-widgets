@@ -232,7 +232,7 @@ class SmartImage extends StatelessWidget {
                         width: width ?? 50.w,
                         child: CircularProgressIndicator(
                           strokeWidth: 3.w,
-                          color: config.imageLoadingColor ?? Theme.of(context).colorScheme.primary,
+                          color: config.imageLoadingColor,
                         ),
                       ),
                     ),
@@ -246,6 +246,6 @@ class SmartImage extends StatelessWidget {
       }
     }
 
-    return onTap != null ? InkWell(onTap: onTap, borderRadius: inkwellBorderRadius, child: child) : child!;
+    return onTap != null ? InkWell(onTap: onTap, borderRadius: inkwellBorderRadius, child: child) : child;
   }
 }

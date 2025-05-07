@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'smart_dev_widgets_config.dart';
 
 class SmartSingleChildScrollView extends StatelessWidget {
