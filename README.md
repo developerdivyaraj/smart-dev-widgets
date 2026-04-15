@@ -40,7 +40,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  smart_dev_widgets: ^0.0.4
+  smart_dev_widgets: ^0.0.5
 ```
 
 Run:

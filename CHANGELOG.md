@@ -1,3 +1,7 @@
+## 0.0.5
+- Modernized dependencies to their latest stable versions (`flutter_svg`, `lottie`, `flutter_lints`).
+- Fixed flow-control linting issues to comply with new `flutter_lints` 6.0.0 rules.
+
 ## 0.0.4
 - **SmartColumn**: Use native `Column.spacing` (Flutter 3.27+) instead of manual `SizedBox` injection.
 - **SmartRow**: Add `spacing` (native `Row.spacing`), `alignment` params; widen `decoration` type to `Decoration?`.
