@@ -10,8 +10,9 @@ extension ImageTypeExtension on String {
   ImageType get imageType {
     if (toLowerCase().endsWith('.svg')) return ImageType.svg;
     if (toLowerCase().endsWith('.json')) return ImageType.lottieAsset;
-    if (startsWith('http://') || startsWith('https://'))
+    if (startsWith('http://') || startsWith('https://')) {
       return ImageType.network;
+    }
     if (File(this).existsSync()) return ImageType.file;
     return ImageType.asset;
   }
