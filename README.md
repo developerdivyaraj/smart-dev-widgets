@@ -58,9 +58,9 @@ dependencies:
   flutter_screenutil: ^5.9.3
   auto_size_text: ^3.0.0
   cached_network_image: ^3.4.1
-  flutter_svg: ^2.1.0
+  flutter_svg: ^2.2.4
   shimmer: ^3.0.0
-  lottie: ^3.1.0
+  lottie: ^3.3.3
 ```
 
 > **Requires Flutter ≥ 3.27.0** for native `Column.spacing` / `Row.spacing` support.
@@ -422,6 +422,52 @@ SmartDevWidgetsConfig().initialize(
   expansionTileTrailingCollapsedIconPath: 'assets/images/arrow_down.svg',
   expansionTileTrailingCollapsedIconVisible: true,
   expansionTileUsePageStorage: true,
+
+  // ── SmartTextField ──────────────────────────────────────────
+  textFieldStyle: TextStyle(fontSize: 14, color: Colors.black87),
+  textFieldHintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+  textFieldLabelStyle: TextStyle(fontSize: 12, color: Colors.grey),
+  textFieldErrorStyle: TextStyle(fontSize: 12, color: Colors.red),
+  textFieldFillColor: Color(0xFFF5F5F5),
+  textFieldEnabledBorderColor: Color(0xFFDDDDDD),
+  textFieldFocusedBorderColor: Colors.blue,
+  textFieldDisabledBorderColor: Color(0xFFEEEEEE),
+  textFieldErrorBorderColor: Colors.red,
+  textFieldCursorColor: Colors.black87,
+
+  // ── SmartCheckbox ───────────────────────────────────────────
+  checkboxActiveColor: Colors.blue,
+  checkboxCheckColor: Colors.white,
+  checkboxBorderColor: Colors.grey,
+  checkboxLabelStyle: TextStyle(fontSize: 14, color: Colors.black87),
+
+  // ── SmartRadioButton ────────────────────────────────────────
+  radioButtonActiveColor: Colors.blue,
+  radioButtonInactiveColor: Colors.grey,
+  radioButtonTextStyle: TextStyle(fontSize: 14, color: Colors.black87),
+
+  // ── SmartDropDown ───────────────────────────────────────────
+  dropdownBackgroundColor: Colors.white,
+
+  // ── SmartAppBar / SmartCommonAppBar ─────────────────────────
+  appBarBackgroundColor: Colors.white,
+  appBarTitleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black87),
+
+  // ── SmartStepper ────────────────────────────────────────────
+  stepperActiveColor: Colors.blue,
+  stepperCompletedColor: Colors.green,
+  stepperUpcomingColor: Colors.grey,
+
+  // ── SmartTabBar ─────────────────────────────────────────────
+  tabBarDividerColor: null,
+  tabBarUnselectedLabelColor: null,
+  tabBarLabelStyle: null,
+  tabBarUnselectedLabelStyle: null,
+
+  // ── SmartNoDataFound ────────────────────────────────────────
+  noDataFoundImagePath: 'assets/images/placeholder.png',
+  noDataFoundText: 'No data found',
+  noDataFoundRetryText: 'Retry',
 );
 ```
 
