@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'smart_dev_widgets_config.dart';
 
+/// A flexible [Row] with built-in spacing, padding, margin, alignment,
+/// tap handling, and optional [Expanded] wrapping.
+///
+/// Defaults are sourced from [SmartDevWidgetsConfig].
 class SmartRow extends StatelessWidget {
   final List<Widget> children;
   final TextBaseline? textBaseline;
@@ -16,8 +20,16 @@ class SmartRow extends StatelessWidget {
   final GestureTapCallback? onTap;
   final bool isInkwell;
   final Color? color;
-  final BoxDecoration? decoration; // Changed to BoxDecoration for consistency
+
+  /// Accepts any [Decoration] (e.g. [BoxDecoration], [ShapeDecoration]).
+  final Decoration? decoration;
   final bool expanded;
+
+  /// Spacing between children — passed natively to [Row.spacing] (Flutter 3.27+).
+  final double spacing;
+
+  /// Alignment of the child within the container wrapping this row.
+  final Alignment? alignment;
 
   SmartRow({
     super.key,
@@ -35,22 +47,30 @@ class SmartRow extends StatelessWidget {
     this.onTap,
     bool? isInkwell,
     this.color,
-    BoxDecoration? decoration,
+    Decoration? decoration,
     this.expanded = false,
+    double? spacing,
+    this.alignment,
   })  : textBaseline = textBaseline ?? SmartDevWidgetsConfig().rowTextBaseline,
         mainAxisSize = mainAxisSize ?? SmartDevWidgetsConfig().rowMainAxisSize,
-        mainAxisAlignment = mainAxisAlignment ?? SmartDevWidgetsConfig().rowMainAxisAlignment,
-        crossAxisAlignment = crossAxisAlignment ?? SmartDevWidgetsConfig().rowCrossAxisAlignment,
-        verticalDirection = verticalDirection ?? SmartDevWidgetsConfig().rowVerticalDirection,
+        mainAxisAlignment =
+            mainAxisAlignment ?? SmartDevWidgetsConfig().rowMainAxisAlignment,
+        crossAxisAlignment =
+            crossAxisAlignment ?? SmartDevWidgetsConfig().rowCrossAxisAlignment,
+        verticalDirection =
+            verticalDirection ?? SmartDevWidgetsConfig().rowVerticalDirection,
         padding = padding ?? SmartDevWidgetsConfig().rowPadding,
         margin = margin ?? SmartDevWidgetsConfig().rowMargin,
         isInkwell = isInkwell ?? SmartDevWidgetsConfig().rowIsInkwell,
-        decoration = decoration ?? SmartDevWidgetsConfig().rowDecoration;
+        decoration = decoration ?? SmartDevWidgetsConfig().rowDecoration,
+        spacing = spacing ?? SmartDevWidgetsConfig().rowSpacing;
 
   @override
   Widget build(BuildContext context) {
+    // Uses native Row.spacing (Flutter 3.27+).
     Widget child = Row(
       key: key,
+      spacing: spacing,
       textBaseline: textBaseline,
       mainAxisSize: mainAxisSize,
       mainAxisAlignment: mainAxisAlignment,
@@ -64,10 +84,13 @@ class SmartRow extends StatelessWidget {
         width != null ||
         height != null ||
         color != null ||
-        decoration != null) {
+        decoration != null ||
+        alignment != null ||
+        margin != null) {
       child = Container(
         width: width,
         height: height,
+        alignment: alignment,
         padding: padding,
         margin: margin,
         color: color,

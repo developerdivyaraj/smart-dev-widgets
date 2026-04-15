@@ -2,10 +2,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'smart_dev_widgets_config.dart';
 
+/// An enhanced [SingleChildScrollView] with optional pull-to-refresh,
+/// automatic keyboard dismissal on tap, SafeArea support, and default
+/// [ClampingScrollPhysics].
+///
+/// Defaults are sourced from [SmartDevWidgetsConfig].
 class SmartSingleChildScrollView extends StatelessWidget {
   final Widget child;
   final ScrollController? controller;
-  final Axis scrollDirection;
+
+  /// If null, defaults to [Axis.vertical] at build time.
+  final Axis? scrollDirection;
   final ScrollPhysics? physics;
   final bool reverse;
   final EdgeInsetsGeometry? padding;
@@ -21,31 +28,34 @@ class SmartSingleChildScrollView extends StatelessWidget {
     super.key,
     required this.child,
     this.controller,
-    Axis? scrollDirection,
-    this.physics,
+    this.scrollDirection,
+    ScrollPhysics? physics,
     bool? reverse,
-    EdgeInsetsGeometry? padding, // Removed default here
-    bool? primary, // Removed default here
+    EdgeInsetsGeometry? padding,
+    bool? primary,
     DragStartBehavior? dragStartBehavior,
     Clip? clipBehavior,
     this.restorationId,
     ScrollViewKeyboardDismissBehavior? keyboardDismissBehavior,
     this.onRefresh,
     bool? safeArea,
-  })  : scrollDirection = scrollDirection ?? SmartDevWidgetsConfig().scrollViewScrollDirection,
+  })  : physics = physics ?? const ClampingScrollPhysics(),
         reverse = reverse ?? SmartDevWidgetsConfig().scrollViewReverse,
         padding = padding ?? SmartDevWidgetsConfig().scrollViewPadding,
         primary = primary ?? SmartDevWidgetsConfig().scrollViewPrimary,
-        dragStartBehavior = dragStartBehavior ?? SmartDevWidgetsConfig().scrollViewDragStartBehavior,
-        clipBehavior = clipBehavior ?? SmartDevWidgetsConfig().scrollViewClipBehavior,
-        keyboardDismissBehavior = keyboardDismissBehavior ?? SmartDevWidgetsConfig().scrollViewKeyboardDismissBehavior,
+        dragStartBehavior = dragStartBehavior ??
+            SmartDevWidgetsConfig().scrollViewDragStartBehavior,
+        clipBehavior =
+            clipBehavior ?? SmartDevWidgetsConfig().scrollViewClipBehavior,
+        keyboardDismissBehavior = keyboardDismissBehavior ??
+            SmartDevWidgetsConfig().scrollViewKeyboardDismissBehavior,
         safeArea = safeArea ?? SmartDevWidgetsConfig().scrollViewSafeArea;
 
   @override
   Widget build(BuildContext context) {
     Widget view = SingleChildScrollView(
       controller: controller,
-      scrollDirection: scrollDirection,
+      scrollDirection: scrollDirection ?? Axis.vertical,
       physics: physics,
       reverse: reverse,
       padding: padding,
@@ -56,11 +66,10 @@ class SmartSingleChildScrollView extends StatelessWidget {
       keyboardDismissBehavior: keyboardDismissBehavior,
       child: child,
     );
+
     view = GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: _getRefreshIndicatorView(view: view),
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: _withRefresh(view),
     );
 
     if (safeArea) {
@@ -70,7 +79,7 @@ class SmartSingleChildScrollView extends StatelessWidget {
     return view;
   }
 
-  Widget _getRefreshIndicatorView({required Widget view}) {
+  Widget _withRefresh(Widget view) {
     if (onRefresh != null) {
       return RefreshIndicator.adaptive(
         triggerMode: RefreshIndicatorTriggerMode.anywhere,

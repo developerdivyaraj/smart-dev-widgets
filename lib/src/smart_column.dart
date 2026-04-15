@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'smart_dev_widgets_config.dart';
 
+/// A customizable [Column] with built-in spacing, padding, margin, tap handling,
+/// SafeArea support, and optional [Expanded] wrapping.
+///
+/// Defaults are sourced from [SmartDevWidgetsConfig].
 class SmartColumn extends StatelessWidget {
   final MainAxisSize mainAxisSize;
   final MainAxisAlignment mainAxisAlignment;
@@ -20,6 +24,8 @@ class SmartColumn extends StatelessWidget {
   final BoxDecoration? decoration;
   final AlignmentGeometry? alignment;
   final Clip clipBehavior;
+
+  /// Spacing between children — passed natively to [Column.spacing] (Flutter 3.27+).
   final double spacing;
   final bool isSafeArea;
 
@@ -45,11 +51,16 @@ class SmartColumn extends StatelessWidget {
     double? spacing,
     EdgeInsetsGeometry? margin,
     bool? isSafeArea,
-  })  : mainAxisSize = mainAxisSize ?? SmartDevWidgetsConfig().columnMainAxisSize,
-        mainAxisAlignment = mainAxisAlignment ?? SmartDevWidgetsConfig().columnMainAxisAlignment,
-        crossAxisAlignment = crossAxisAlignment ?? SmartDevWidgetsConfig().columnCrossAxisAlignment,
-        verticalDirection = verticalDirection ?? SmartDevWidgetsConfig().columnVerticalDirection,
-        textBaseline = textBaseline ?? SmartDevWidgetsConfig().columnTextBaseline,
+  })  : mainAxisSize =
+            mainAxisSize ?? SmartDevWidgetsConfig().columnMainAxisSize,
+        mainAxisAlignment = mainAxisAlignment ??
+            SmartDevWidgetsConfig().columnMainAxisAlignment,
+        crossAxisAlignment = crossAxisAlignment ??
+            SmartDevWidgetsConfig().columnCrossAxisAlignment,
+        verticalDirection = verticalDirection ??
+            SmartDevWidgetsConfig().columnVerticalDirection,
+        textBaseline =
+            textBaseline ?? SmartDevWidgetsConfig().columnTextBaseline,
         spacing = spacing ?? SmartDevWidgetsConfig().columnSpacing,
         padding = padding ?? SmartDevWidgetsConfig().columnPadding,
         margin = margin ?? SmartDevWidgetsConfig().columnMargin,
@@ -57,30 +68,31 @@ class SmartColumn extends StatelessWidget {
         isSafeArea = isSafeArea ?? SmartDevWidgetsConfig().columnIsSafeArea,
         decoration = decoration ?? SmartDevWidgetsConfig().columnDecoration,
         alignment = alignment ?? SmartDevWidgetsConfig().columnAlignment,
-        clipBehavior = clipBehavior ?? SmartDevWidgetsConfig().columnClipBehavior;
+        clipBehavior =
+            clipBehavior ?? SmartDevWidgetsConfig().columnClipBehavior;
 
   @override
   Widget build(BuildContext context) {
-    final spacedChildren = <Widget>[];
-    for (var i = 0; i < children.length; i++) {
-      spacedChildren.add(children[i]);
-      if (i < children.length - 1 && spacing > 0) {
-        spacedChildren.add(SizedBox(height: spacing));
-      }
-    }
-
+    // Uses native Column.spacing (Flutter 3.27+) — no manual SizedBox injection needed.
     Widget child = Column(
       key: key,
+      spacing: spacing,
       mainAxisSize: mainAxisSize,
       mainAxisAlignment: mainAxisAlignment,
       crossAxisAlignment: crossAxisAlignment,
       textDirection: textDirection,
       verticalDirection: verticalDirection,
       textBaseline: textBaseline,
-      children: spacedChildren,
+      children: children,
     );
 
-    if (padding != null || width != null || height != null || color != null || decoration != null || alignment != null || margin != null) {
+    if (padding != null ||
+        width != null ||
+        height != null ||
+        color != null ||
+        decoration != null ||
+        alignment != null ||
+        margin != null) {
       child = Container(
         width: width,
         height: height,
@@ -95,7 +107,9 @@ class SmartColumn extends StatelessWidget {
     }
 
     if (onTap != null) {
-      child = isInkwell ? InkWell(onTap: onTap, child: child) : GestureDetector(onTap: onTap, child: child);
+      child = isInkwell
+          ? InkWell(onTap: onTap, child: child)
+          : GestureDetector(onTap: onTap, child: child);
     }
 
     if (expanded) {

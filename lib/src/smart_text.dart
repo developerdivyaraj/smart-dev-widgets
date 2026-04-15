@@ -2,20 +2,26 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'smart_dev_widgets_config.dart';
 
+/// An enhanced [Text] or [AutoSizeText] with color/weight overrides, optional
+/// padding, tap handling, and [Expanded]/[Flexible] wrapping support.
+///
+/// Defaults are sourced from [SmartDevWidgetsConfig].
 class SmartText extends StatelessWidget {
   final String? _text;
   final TextStyle? _style;
   final Color? color;
   final FontWeight? fontWeight;
-  final EdgeInsetsGeometry? optionalPaddings; // Declaration (plural)
+
+  /// Optional padding around the text when [text] is non-empty.
+  final EdgeInsetsGeometry? optionalPadding;
   final TextOverflow? overflow;
   final TextAlign? textAlign;
-  final TextDecoration? textDecoration;
+  final TextDecoration? decoration;
   final int? maxLines;
   final GestureTapCallback? onTap;
   final bool isAutoSizeText;
-  final bool isExpanded;
-  final bool isFlexible;
+  final bool expanded;
+  final bool flexible;
   final int flex;
 
   SmartText(
@@ -24,44 +30,47 @@ class SmartText extends StatelessWidget {
     Color? color,
     TextStyle? style,
     FontWeight? fontWeight,
-    EdgeInsetsGeometry? optionalPaddings, // Fixed to plural
+    EdgeInsetsGeometry? optionalPadding,
     TextOverflow? overflow,
     TextAlign? textAlign,
-    TextDecoration? textDecoration,
+    TextDecoration? decoration,
     int? maxLines,
     bool? isAutoSizeText,
     this.onTap,
-    this.isExpanded = false,
-    this.isFlexible = false,
+    this.expanded = false,
+    this.flexible = false,
     this.flex = 1,
   })  : _text = text,
         _style = style ?? SmartDevWidgetsConfig().textStyle,
         color = color ?? SmartDevWidgetsConfig().textColor,
         fontWeight = fontWeight ?? SmartDevWidgetsConfig().textFontWeight,
-        optionalPaddings = optionalPaddings ?? SmartDevWidgetsConfig().textOptionalPaddings,
-        // Fixed to plural
+        optionalPadding =
+            optionalPadding ?? SmartDevWidgetsConfig().textOptionalPadding,
         overflow = overflow ?? SmartDevWidgetsConfig().textOverflow,
         textAlign = textAlign ?? SmartDevWidgetsConfig().textAlign,
-        textDecoration = textDecoration ?? SmartDevWidgetsConfig().textDecoration,
+        decoration = decoration ?? SmartDevWidgetsConfig().textDecoration,
         maxLines = maxLines ?? SmartDevWidgetsConfig().textMaxLines,
-        isAutoSizeText = isAutoSizeText ?? SmartDevWidgetsConfig().textIsAutoSizeText {
-    assert(!(isExpanded && isFlexible), 'isExpanded and isFlexible cannot be true at the same time');
+        isAutoSizeText =
+            isAutoSizeText ?? SmartDevWidgetsConfig().textIsAutoSizeText {
+    assert(!(expanded && flexible),
+        'expanded and flexible cannot both be true at the same time');
   }
 
   @override
   Widget build(BuildContext context) {
     TextStyle? style = _style;
     Widget child;
+
+    final mergedStyle =
+        (color != null || fontWeight != null || decoration != null)
+            ? style?.merge(TextStyle(
+                color: color, fontWeight: fontWeight, decoration: decoration))
+            : style;
+
     if (isAutoSizeText) {
       child = AutoSizeText(
         _text ?? '',
-        style: (color != null || fontWeight != null || textDecoration != null)
-            ? style?.merge(TextStyle(
-                color: color,
-                fontWeight: fontWeight,
-                decoration: textDecoration,
-              ))
-            : style,
+        style: mergedStyle,
         overflow: overflow,
         textAlign: textAlign,
         maxLines: maxLines,
@@ -69,40 +78,27 @@ class SmartText extends StatelessWidget {
     } else {
       child = Text(
         _text ?? '',
-        style: (color != null || fontWeight != null || textDecoration != null)
-            ? style?.merge(TextStyle(
-                color: color,
-                fontWeight: fontWeight,
-                decoration: textDecoration,
-              ))
-            : style,
+        style: mergedStyle,
         overflow: overflow,
         textAlign: textAlign,
         maxLines: maxLines,
       );
     }
 
-    if (_text != null && _text!.isNotEmpty && optionalPaddings != null) {
-      child = Padding(padding: optionalPaddings!, child: child);
-    }
-    if (onTap != null) {
-      child = GestureDetector(
-        onTap: onTap,
-        child: child,
-      );
+    if (_text != null && _text!.isNotEmpty && optionalPadding != null) {
+      child = Padding(padding: optionalPadding!, child: child);
     }
 
-    if (isExpanded) {
-      child = Expanded(
-        flex: flex,
-        child: child,
-      );
-    } else if (isFlexible) {
-      child = Flexible(
-        flex: flex,
-        child: child,
-      );
+    if (onTap != null) {
+      child = GestureDetector(onTap: onTap, child: child);
     }
+
+    if (expanded) {
+      child = Expanded(flex: flex, child: child);
+    } else if (flexible) {
+      child = Flexible(flex: flex, child: child);
+    }
+
     return child;
   }
 }

@@ -1,57 +1,75 @@
 # SmartDevWidgets
 
-A collection of reusable, customizable Flutter widgets designed to simplify and accelerate UI development. Built by SmartDev, this package provides widgets for common UI components with consistent styling, responsive design, and global configuration support.
+A collection of **reusable, customizable Flutter widgets** designed to simplify and accelerate UI development. Built by SmartDev, this package provides battle-tested widgets for common UI components with consistent styling, responsive design, and global configuration support.
 
-## Features
+[![pub version](https://img.shields.io/pub/v/smart_dev_widgets)](https://pub.dev/packages/smart_dev_widgets)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-- **SmartColumn**: A customizable `Column` with spacing, padding, tap handling, and SafeArea support.
-- **SmartRow**: A flexible `Row` with padding, margin, and tap handling.
-- **SmartText**: A versatile `Text` or `AutoSizeText` with styling, padding, and layout options.
-- **SmartButton**: A feature-rich button with loading states, prefix/suffix images, and customizable styles.
-- **SmartSingleChildScrollView**: An enhanced `SingleChildScrollView` with pull-to-refresh, SafeArea, and keyboard dismissal.
-- **SmartImage**: A robust image viewer supporting assets, files, network images, and SVGs with caching and error handling.
-- **SmartExpansionTile**: A customizable `ExpansionTile` with animated expansion, trailing icons, and theme integration.
-- **Global Configuration**: Use `SmartDevWidgetsConfig` to set default styles and behaviors across all widgets.
-- **Responsive Design**: Integrates with `flutter_screenutil` for consistent sizing across devices.
+---
 
-## Installation
+## ✨ Features
 
-Add `smart_dev_widgets` to your `pubspec.yaml`:
+| Widget | Description |
+|---|---|
+| `SmartColumn` | `Column` with native spacing, padding, tap handling, SafeArea, and `Expanded` support |
+| `SmartRow` | `Row` with native spacing, alignment, decoration, and tap handling |
+| `SmartText` | `Text` / `AutoSizeText` with color, weight, padding, and `Expanded`/`Flexible` support |
+| `SmartTextField` | Fully customizable text field with password toggle, search variant, and built-in error states |
+| `SmartButton` | Full-featured button with bounce animation, loading state, prefix/suffix icons, white variant |
+| `SmartCheckbox` | Checkbox and radial variants with custom color and label styling |
+| `SmartRadioButton` | Customizable radio button with toggling support |
+| `SmartDropDown` | Modal bottom sheet dropdown with search filtering and custom items |
+| `SmartSingleChildScrollView` | Scroll view with pull-to-refresh, keyboard dismiss, and `ClampingScrollPhysics` default |
+| `SmartImage` | Universal image viewer (asset, file, SVG, network, Lottie) with 4 animated loading styles |
+| `SmartExpansionTile` | Animated expansion tile with custom icons and PageStorage control |
+| `SmartTabBar` | Self-contained TabBar with views, page control, and custom indicators |
+| `SmartAppBar` | Highly customizable AppBar with leading/action icons and skip mode |
+| `SmartCommonAppBar` | Streamlined AppBar with profile headers and simplified back/close states |
+| `SmartStepper` | Animated vertical stepper with dashed lines and state-based icons |
+| `SmartCircularProgressIndicator` | Configurable circular progress indicator |
+| `SmartNoDataFound` | Unified empty state widget with image, messaging, and retry actions |
+| `SmartImagePickDialogSheet` | Elegant custom bottom sheet for Camera / Gallery source selection |
+| `SmartDashedDivider` & `Gradient` | Decorative dashed dividers and gradient fade lines |
+| `SmartDevWidgetsConfig` | Singleton for setting global defaults across all widgets |
+
+---
+
+## 📦 Installation
+
+Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  smart_dev_widgets: ^0.0.1
+  smart_dev_widgets: ^0.0.4
 ```
 
-Run the following command to install the package:
+Run:
 
 ```bash
 flutter pub get
 ```
 
-### Dependencies
+### Peer dependencies
 
-Ensure the following dependencies are included in your `pubspec.yaml`:
+These are included automatically but listed here for reference:
 
 ```yaml
 dependencies:
-  flutter_screenutil: ^5.9.0
+  flutter_screenutil: ^5.9.3
   auto_size_text: ^3.0.0
-  cached_network_image: ^3.3.0
-  flutter_svg: ^2.0.7
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.1.0
+  shimmer: ^3.0.0
+  lottie: ^3.1.0
 ```
 
-For the test app or your application, include assets:
+> **Requires Flutter ≥ 3.27.0** for native `Column.spacing` / `Row.spacing` support.
 
-```yaml
-flutter:
-  assets:
-    - assets/images/
-```
+---
 
-## Setup
+## ⚙️ Setup
 
-Initialize `SmartDevWidgetsConfig` at app startup to set default values for all widgets. Wrap your app with `ScreenUtilInit` for responsive sizing.
+Initialize `SmartDevWidgetsConfig` once in `main()` and wrap your app with `ScreenUtilInit`:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -61,42 +79,18 @@ import 'package:smart_dev_widgets/smart_dev_widgets.dart';
 void main() {
   SmartDevWidgetsConfig().initialize(
     // SmartColumn defaults
-    columnMainAxisAlignment: MainAxisAlignment.center,
-    columnCrossAxisAlignment: CrossAxisAlignment.start,
     columnSpacing: 8.0,
-    columnPadding: EdgeInsets.all(10.w),
-    columnIsInkwell: true,
-    // SmartRow defaults
-    rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    rowPadding: EdgeInsets.symmetric(horizontal: 8.w),
-    rowIsInkwell: true,
+    columnCrossAxisAlignment: CrossAxisAlignment.start,
     // SmartText defaults
-    textStyle: TextStyle(
-      fontSize: 16.0.sp,
-      fontWeight: FontWeight.w500,
-      color: Colors.blue,
-    ),
-    textPadding: EdgeInsets.all(4.w),
-    textOverflow: TextOverflow.ellipsis,
-    textMaxLines: 2,
+    textStyle: TextStyle(fontSize: 14, color: Colors.black87),
     // SmartButton defaults
     buttonActiveBackgroundColor: Colors.blue,
-    buttonHeight: 48.w,
-    buttonPadding: EdgeInsets.symmetric(horizontal: 12.w),
-    // SmartSingleChildScrollView defaults
-    scrollViewPadding: EdgeInsets.all(16.w),
-    scrollViewSafeArea: true,
+    buttonHeight: 48.0,
     // SmartImage defaults
-    imagePlaceholderPath: 'assets/placeholder.png',
-    imageLoadingColor: Colors.blue,
-    imagePadding: EdgeInsets.all(4.w),
-    imageHeight: 100.w,
-    imageWidth: 100.w,
-    // SmartExpansionTile defaults
-    expansionTileTrailingExpandedIconPath: 'assets/arrow_up.png',
-    expansionTileTrailingCollapsedIconPath: 'assets/arrow_down.png',
-    expansionTilePadding: EdgeInsets.all(8.w),
-    expansionTileMargin: EdgeInsets.symmetric(horizontal: 16.w),
+    imageHeight: 100.0,
+    imageWidth: 100.0,
+    imageLoadingAnimationType: LoadingAnimationType.shimmer,
+    // ... (see full Config Reference below)
   );
 
   runApp(const MyApp());
@@ -104,199 +98,379 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
-          home: child,
-        );
-      },
+      builder: (context, child) => MaterialApp(home: child),
       child: const HomePage(),
     );
   }
 }
 ```
 
-## Usage
+---
+
+## 🧩 Widget Usage
 
 ### SmartColumn
 
-A customizable `Column` with spacing, padding, and tap handling.
+A `Column` with built-in **native spacing**, padding, margin, tap handling, and SafeArea.
 
 ```dart
 SmartColumn(
-  spacing: 8.0,
-  padding: EdgeInsets.all(16.w),
-  onTap: () {
-    print('Column tapped!');
-  },
+  spacing: 12.0,           // native Column.spacing (no manual SizedBox needed)
+  padding: EdgeInsets.all(16),
+  crossAxisAlignment: CrossAxisAlignment.start,
+  isSafeArea: true,
+  onTap: () => print('tapped'),
   isInkwell: true,
   children: [
     Text('Item 1'),
     Text('Item 2'),
+    Text('Item 3'),
   ],
 )
 ```
+
+---
 
 ### SmartRow
 
-A flexible `Row` with alignment, padding, and tap handling.
+A `Row` with **native spacing**, alignment, decoration, and tap handling.
 
 ```dart
 SmartRow(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  padding: EdgeInsets.symmetric(horizontal: 8.w),
-  onTap: () {
-    print('Row tapped!');
-  },
-  isInkwell: true,
+  spacing: 8.0,            // native Row.spacing (Flutter 3.27+)
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  alignment: Alignment.center,
+  padding: EdgeInsets.symmetric(horizontal: 16),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+  ),
   children: [
-    Text('Left'),
-    Text('Right'),
+    Icon(Icons.star),
+    Text('Rating'),
+    Text('4.5'),
   ],
 )
 ```
 
+---
+
 ### SmartText
 
-A customizable `Text` or `AutoSizeText` with styling and layout options.
+Enhanced `Text` or `AutoSizeText` with color/weight overrides, optional padding, and layout helpers.
 
 ```dart
 SmartText(
   'Hello World',
-  style: TextStyle(fontSize: 18.sp, color: Colors.blue),
-  padding: EdgeInsets.all(4.w),
-  onTap: () {
-    print('Text tapped!');
-  },
-  isAutoSizeText: true,
-  maxLines: 2,
+  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+  color: Colors.blue,
   overflow: TextOverflow.ellipsis,
+  maxLines: 2,
+  optionalPadding: EdgeInsets.symmetric(vertical: 4),
+  isAutoSizeText: true,
+  onTap: () => print('text tapped'),
 )
+
+// Inside a Row — use expanded or flexible
+SmartText('Label', expanded: true)
+SmartText('Value', flexible: true, flex: 2)
 ```
+
+---
 
 ### SmartButton
 
-A versatile button with loading states and image support.
+Full-featured button with **bounce animation**, loading state, prefix/suffix image support.
 
 ```dart
+// Default button
 SmartButton(
-  title: 'Click Me',
-  onTap: () {
-    print('Button tapped!');
-  },
-  prefixImage: 'assets/icon.png',
+  title: 'Submit',
+  onTap: () => print('submitted'),
   isLoading: false,
+  isEnabled: true,
   activeBackgroundColor: Colors.blue,
-  height: 48.w,
+  prefixImage: 'assets/icons/send.svg',
+  height: 52.0,
+  borderRadius: BorderRadius.circular(12),
+)
+
+// White outlined variant
+SmartButton.white(
+  title: 'Cancel',
+  onTap: () {},
+  borderColor: Colors.blue,
 )
 ```
 
+**Parameters:**
+
+| Parameter | Type | Description |
+|---|---|---|
+| `title` | `String` | Button label |
+| `onTap` | `VoidCallback` | Tap callback |
+| `isLoading` | `bool` | Shows `SmartCircularProgressIndicator` |
+| `isEnabled` | `bool` | Disables tap and applies disable style |
+| `isShadow` | `bool` | Adds colored drop shadow |
+| `isWhite` | `bool` | White background with colored border |
+| `prefixImage` | `String?` | Path to prefix icon (any `SmartImage` type) |
+| `suffixImage` | `String?` | Path to suffix icon |
+| `height` / `width` | `double?` | Button dimensions |
+| `activeBackgroundColor` | `Color?` | Active state background |
+| `disableBackgroundColor` | `Color?` | Disabled state background |
+| `borderRadius` | `BorderRadiusGeometry?` | Corner radius |
+| `titleStyle` | `TextStyle?` | Active title style (merged with config) |
+| `boxShadow` | `BoxShadow?` | Custom shadow |
+
+---
+
 ### SmartSingleChildScrollView
 
-An enhanced `SingleChildScrollView` with refresh and keyboard dismissal.
+Scroll view with **pull-to-refresh**, automatic keyboard dismiss, and `SafeArea` support.
 
 ```dart
 SmartSingleChildScrollView(
-  padding: EdgeInsets.all(16.w),
   safeArea: true,
+  padding: EdgeInsets.all(16),
   onRefresh: () async {
-    await Future.delayed(Duration(seconds: 1));
-    print('Refreshed!');
+    await loadData();
   },
   child: Column(
-    children: [
-      Text('Scrollable Content'),
-    ],
+    children: [...],
   ),
 )
 ```
 
+---
+
 ### SmartImage
 
-A robust image viewer supporting multiple image types.
+Universal image loader — supports **assets, files, network, SVG, and Lottie** with 4 animated loading styles.
 
 ```dart
+// Asset image
+SmartImage(path: 'assets/images/banner.png', width: 200, height: 120)
+
+// Network image with shimmer loading
 SmartImage(
-  path: 'assets/icon.png',
-  height: 100.w,
-  width: 100.w,
+  path: 'https://example.com/photo.jpg',
+  size: 80,                     // sets both height & width
+  imageBorderRadius: BorderRadius.circular(40),
+  animationType: LoadingAnimationType.shimmer,
+  showLoadingAnimation: true,
+  onTap: () => openPhoto(),
+)
+
+// SVG (auto-detected by .svg extension)
+SmartImage(path: 'assets/icons/logo.svg', color: Colors.white)
+
+// Network SVG
+SmartImage(path: 'https://example.com/icon.svg', size: 32)
+
+// Lottie animation (auto-detected by .json extension)
+SmartImage(path: 'assets/animations/success.json', size: 120)
+
+// Custom decoration
+SmartImage(
+  path: 'https://example.com/cover.jpg',
+  height: 200,
+  width: double.infinity,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(16),
+    boxShadow: [BoxShadow(blurRadius: 8, color: Colors.black26)],
+  ),
   fit: BoxFit.cover,
-  onTap: () {
-    print('Image tapped!');
-  },
 )
 ```
 
+**New parameters in v0.0.4:**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `size` | `double?` | – | Shortcut: sets both `height` and `width` |
+| `clipBehavior` | `Clip` | `Clip.none` | Container clip behavior |
+| `decoration` | `Decoration?` | – | Overrides default `BoxDecoration` |
+| `alignment` | `AlignmentGeometry?` | – | Child alignment within container |
+| `animationType` | `LoadingAnimationType` | `shimmer` | Shimmer / pulse / skeleton / wave |
+| `showLoadingAnimation` | `bool` | `true` | Toggle animated vs. static placeholder |
+
+**Loading animation types:**
+
+| Type | Description |
+|---|---|
+| `shimmer` | Horizontal shimmer sweep (default) |
+| `pulse` | Fade in/out pulsing effect |
+| `skeleton` | Card-shaped skeleton blocks |
+| `wave` | Diagonal gradient wave |
+
+---
+
 ### SmartExpansionTile
 
-A customizable `ExpansionTile` with animated expansion and trailing icons.
+Animated expand/collapse tile with configurable trailing icons and PageStorage control.
 
 ```dart
 SmartExpansionTile(
-  title: SmartText('Expand Me'),
-  padding: EdgeInsets.all(8.w),
-  onExpansionChanged: (expanded) {
-    print('Expanded: $expanded');
-  },
+  title: SmartText('FAQ Item', style: TextStyle(fontWeight: FontWeight.w600)),
+  initiallyExpanded: false,
+  isDisablePageStorage: true,   // always starts collapsed (no state persistence)
+  trailingCollapsedIconVisible: true,
+  onExpansionChanged: (expanded) => print('expanded: $expanded'),
   children: [
-    SmartText('Child Content 1'),
-    SmartText('Child Content 2'),
+    Padding(
+      padding: EdgeInsets.all(12),
+      child: SmartText('Answer content here...'),
+    ),
   ],
 )
 ```
 
-## Widgets
+**New in v0.0.4:**
 
-| Widget                     | Description                                                                 |
-|----------------------------|-----------------------------------------------------------------------------|
-| `SmartColumn`              | Customizable `Column` with spacing, padding, margin, and tap handling.       |
-| `SmartRow`                 | Flexible `Row` with padding, margin, and tap handling.                      |
-| `SmartText`                | Enhanced `Text` or `AutoSizeText` with styling and layout options.           |
-| `SmartButton`              | Feature-rich button with loading, images, and styling.                      |
-| `SmartSingleChildScrollView` | `SingleChildScrollView` with refresh, SafeArea, and keyboard dismissal.      |
-| `SmartImage`               | Image viewer for assets, files, network images, and SVGs with caching.       |
-| `SmartExpansionTile`       | Customizable `ExpansionTile` with animated expansion and trailing icons.     |
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `isDisablePageStorage` | `bool` | `false` | Disables PageStorage — tile always uses `initiallyExpanded` |
 
-## Configuration
+---
 
-Use `SmartDevWidgetsConfig` to set global defaults. Example properties:
+### SmartCircularProgressIndicator
 
-- **SmartColumn**: `columnSpacing`, `columnPadding`, `columnIsInkwell`
-- **SmartRow**: `rowMainAxisAlignment`, `rowPadding`, `rowIsInkwell`
-- **SmartText**: `textStyle`, `textPadding`, `textMaxLines`
-- **SmartButton**: `buttonHeight`, `buttonActiveBackgroundColor`, `buttonImageSize`
-- **SmartSingleChildScrollView**: `scrollViewPadding`, `scrollViewSafeArea`
-- **SmartImage**: `imagePlaceholderPath`, `imageLoadingColor`, `imageHeight`, `imageWidth`
-- **SmartExpansionTile**: `expansionTilePadding`, `expansionTileTrailingExpandedIconPath`, `expansionTileAnimationDuration`
+Configurable circular progress indicator — used internally by `SmartButton`.
 
-See the [Setup](#setup) section for a full example.
+```dart
+SmartCircularProgressIndicator(
+  size: 32,
+  color: Colors.white,
+  strokeWidth: 3,
+  padding: EdgeInsets.all(8),
+)
+```
 
-## Testing
+---
 
-The package includes comprehensive unit tests. Run tests with:
+## 🛠 Global Configuration
+
+`SmartDevWidgetsConfig` is a **singleton** — call `initialize()` once at startup.
+
+### Full Config Reference
+
+```dart
+SmartDevWidgetsConfig().initialize(
+  // ── SmartColumn ─────────────────────────────────────────────
+  columnMainAxisAlignment: MainAxisAlignment.start,
+  columnCrossAxisAlignment: CrossAxisAlignment.center,
+  columnSpacing: 0,
+  columnPadding: null,
+  columnMargin: null,
+  columnIsInkwell: false,
+  columnIsSafeArea: false,
+  columnDecoration: null,
+
+  // ── SmartRow ─────────────────────────────────────────────────
+  rowMainAxisAlignment: MainAxisAlignment.start,
+  rowCrossAxisAlignment: CrossAxisAlignment.center,
+  rowSpacing: 0,                    // new in 0.0.4
+  rowPadding: null,
+  rowMargin: null,
+  rowDecoration: null,
+
+  // ── SmartText ────────────────────────────────────────────────
+  textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+  textColor: null,
+  textFontWeight: null,
+  textOptionalPadding: null,        // renamed from textOptionalPaddings
+  textOverflow: null,
+  textAlign: null,
+  textMaxLines: null,
+  textIsAutoSizeText: false,
+
+  // ── SmartButton ──────────────────────────────────────────────
+  buttonHeight: 48.0,
+  buttonActiveBackgroundColor: Colors.blue,
+  buttonDisableBackgroundColor: Colors.grey,
+  buttonBorderRadius: BorderRadius.circular(8),
+  buttonTitleStyle: TextStyle(fontSize: 16, color: Colors.white),
+  buttonIsShadow: false,
+  buttonIsWhite: false,
+  buttonImageSize: 24.0,
+
+  // ── SmartSingleChildScrollView ───────────────────────────────
+  scrollViewSafeArea: false,
+  scrollViewPadding: null,
+  scrollViewKeyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+
+  // ── SmartImage ───────────────────────────────────────────────
+  imageHeight: 100.0,
+  imageWidth: 100.0,
+  imageFit: BoxFit.cover,
+  imagePlaceholderPath: 'assets/images/placeholder.png',
+  imageLoadingColor: Colors.blue,
+  imageLoadingAnimationType: LoadingAnimationType.shimmer,  // new in 0.0.4
+  imageShowLoadingAnimation: true,                          // new in 0.0.4
+  imageShape: BoxShape.rectangle,
+  imageIsMemCacheEnabled: true,
+
+  // ── SmartExpansionTile ───────────────────────────────────────
+  expansionTileAnimationDuration: Duration(milliseconds: 200),
+  expansionTileAnimationCurve: Curves.easeInOut,
+  expansionTileTrailingExpandedIconPath: 'assets/images/arrow_up.svg',
+  expansionTileTrailingCollapsedIconPath: 'assets/images/arrow_down.svg',
+  expansionTileTrailingCollapsedIconVisible: true,
+  expansionTileUsePageStorage: true,
+);
+```
+
+---
+
+## 🗂 Asset Setup
+
+Add image assets to your app's `pubspec.yaml`:
+
+```yaml
+flutter:
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/   # for Lottie .json files
+```
+
+---
+
+## 🧪 Testing
 
 ```bash
 cd smart_dev_widgets
 flutter test
 ```
 
-## Issues
+---
+
+## 📋 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for full version history.
+
+---
+
+## 🐛 Issues
 
 Report bugs or request features on the [GitHub Issues page](https://github.com/developerdivyaraj/smart-dev-widgets/issues).
 
-## License
+---
 
-This package is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## 📄 License
 
-## Contact
+MIT License — see [LICENSE](LICENSE) for details.
 
-For support, contact us at [developerdivyaraj@gmail.com](mailto:developerdivyaraj@gmail.com).
+---
+
+## 📬 Contact
+
+For support: [developerdivyaraj@gmail.com](mailto:developerdivyaraj@gmail.com)
 
 ---
 

@@ -1,12 +1,12 @@
 name: smart_dev_widgets
 description: A collection of reusable Flutter widgets for common UI components by SmartDev.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/developerdivyaraj/smart-dev-widgets
 repository: https://github.com/developerdivyaraj/smart-dev-widgets
 
 environment:
   sdk: '>=2.18.0 <4.0.0'
-  flutter: '>=3.0.0'
+  flutter: '>=3.27.0'
 
 dependencies:
   flutter:
@@ -15,6 +15,8 @@ dependencies:
   flutter_screenutil: ^5.9.3
   cached_network_image: ^3.4.1
   flutter_svg: ^2.1.0
+  shimmer: ^3.0.0
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
