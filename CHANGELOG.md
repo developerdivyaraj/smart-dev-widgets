@@ -1,4 +1,4 @@
-## 0.0.5
+## 0.0.6
 - Modernized dependencies to their latest stable versions (`flutter_svg`, `lottie`, `flutter_lints`).
 - Fixed flow-control linting issues to comply with new `flutter_lints` 6.0.0 rules.
 
