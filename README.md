@@ -40,7 +40,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  smart_dev_widgets: ^0.0.6
+  smart_dev_widgets: ^0.0.4
 ```
 
 Run:
@@ -58,9 +58,9 @@ dependencies:
   flutter_screenutil: ^5.9.3
   auto_size_text: ^3.0.0
   cached_network_image: ^3.4.1
-  flutter_svg: ^2.2.4
+  flutter_svg: ^2.1.0
   shimmer: ^3.0.0
-  lottie: ^3.3.3
+  lottie: ^3.1.0
 ```
 
 > **Requires Flutter ≥ 3.27.0** for native `Column.spacing` / `Row.spacing` support.
@@ -112,362 +112,283 @@ class MyApp extends StatelessWidget {
 
 ---
 
-## 🧩 Widget Usage
+## 🧩 Widget Reference
+
+Each widget is designed to be self-contained and fall back to global [SmartDevWidgetsConfig] defaults.
 
 ### SmartColumn
+A `Column` with built-in native spacing, padding, margin, tap handling, and `SafeArea`.
 
-A `Column` with built-in **native spacing**, padding, margin, tap handling, and SafeArea.
-
-```dart
-SmartColumn(
-  spacing: 12.0,           // native Column.spacing (no manual SizedBox needed)
-  padding: EdgeInsets.all(16),
-  crossAxisAlignment: CrossAxisAlignment.start,
-  isSafeArea: true,
-  onTap: () => print('tapped'),
-  isInkwell: true,
-  children: [
-    Text('Item 1'),
-    Text('Item 2'),
-    Text('Item 3'),
-  ],
-)
-```
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `children` | `List<Widget>` | **Required** | List of widgets to display vertically |
+| `spacing` | `double` | `config` | Spacing between children (native `Column.spacing`) |
+| `padding` | `EdgeInsetsGeometry?` | `config` | Inner padding of the column container |
+| `margin` | `EdgeInsetsGeometry?` | `config` | Outer margin of the column container |
+| `onTap` | `VoidCallback?` | `null` | Tap callback for the entire column |
+| `isInkwell` | `bool` | `config` | Whether to show ripple effect on tap |
+| `isSafeArea` | `bool` | `config` | Wraps the column in a `SafeArea` |
+| `expanded` | `bool` | `false` | Wraps the entire column in an `Expanded` widget |
+| `decoration` | `BoxDecoration?` | `config` | Decoration for the column container |
+| `alignment` | `AlignmentGeometry?` | `config` | Alignment of the column within its parent |
+| `color` | `Color?` | `null` | Background color for the column |
+| `width` / `height` | `double?` | `null` | Explicit dimensions for the column |
 
 ---
 
 ### SmartRow
+A `Row` with native spacing, alignment, decoration, and tap handling.
 
-A `Row` with **native spacing**, alignment, decoration, and tap handling.
-
-```dart
-SmartRow(
-  spacing: 8.0,            // native Row.spacing (Flutter 3.27+)
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  alignment: Alignment.center,
-  padding: EdgeInsets.symmetric(horizontal: 16),
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(12),
-  ),
-  children: [
-    Icon(Icons.star),
-    Text('Rating'),
-    Text('4.5'),
-  ],
-)
-```
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `children` | `List<Widget>` | **Required** | List of widgets to display horizontally |
+| `spacing` | `double` | `config` | Spacing between children (native `Row.spacing`) |
+| `mainAxisAlignment` | `MainAxisAlignment` | `config` | Horizontal alignment of children |
+| `crossAxisAlignment` | `CrossAxisAlignment` | `config` | Vertical alignment of children |
+| `padding` | `EdgeInsetsGeometry?` | `config` | Inner padding |
+| `margin` | `EdgeInsetsGeometry?` | `config` | Outer margin |
+| `onTap` | `VoidCallback?` | `null` | Tap callback |
+| `isInkwell` | `bool` | `config` | Use `InkWell` vs `GestureDetector` |
+| `decoration` | `Decoration?` | `config` | Row container decoration |
+| `expanded` | `bool` | `false` | Wraps row in `Expanded` |
 
 ---
 
 ### SmartText
+Enhanced `Text` or `AutoSizeText` with layout helpers and tap handling.
 
-Enhanced `Text` or `AutoSizeText` with color/weight overrides, optional padding, and layout helpers.
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `text` | `String` | **Positional** | The string to display |
+| `style` | `TextStyle?` | `config` | Base text style |
+| `color` | `Color?` | `config` | Color override for the style |
+| `fontWeight` | `FontWeight?` | `config` | Font weight override |
+| `optionalPadding` | `EdgeInsetsGeometry?` | `config` | Padding around the text |
+| `onTap` | `VoidCallback?` | `null` | Tap callback |
+| `isAutoSizeText` | `bool` | `config` | Use `AutoSizeText` for responsive sizing |
+| `expanded` | `bool` | `false` | Wraps text in `Expanded` |
+| `flexible` | `bool` | `false` | Wraps text in `Flexible` |
+| `flex` | `int` | `1` | Flex factor for expanded/flexible |
 
-```dart
-SmartText(
-  'Hello World',
-  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-  color: Colors.blue,
-  overflow: TextOverflow.ellipsis,
-  maxLines: 2,
-  optionalPadding: EdgeInsets.symmetric(vertical: 4),
-  isAutoSizeText: true,
-  onTap: () => print('text tapped'),
-)
+---
 
-// Inside a Row — use expanded or flexible
-SmartText('Label', expanded: true)
-SmartText('Value', flexible: true, flex: 2)
-```
+### SmartTextField
+Fully customizable `TextFormField` with label, hint, and validation support.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `controller` | `TextEditingController?` | `null` | Controller for the field |
+| `hintText` | `String?` | `null` | Placeholder text |
+| `labelText` | `String?` | `null` | Floating label text |
+| `obscured` | `bool` | `false` | Hides text (for passwords) |
+| `onValueChanges` | `ValueChanged<String>?` | `null` | Callback on every change |
+| `validator` | `FormFieldValidator?` | `null` | Form validation logic |
+| `prefixIcon` | `Widget?` | `null` | Icon at the start |
+| `suffixIcon` | `Widget?` | `null` | Icon at the end (auto password toggle if obscured) |
+| `keyboardType`| `TextInputType?` | `null` | Input type (email, phone, etc.) |
+| `isSearch` | `bool` | `false` | Use `.search` constructor for search styling |
+| `isRequired` | `bool` | `false` | Adds '*' to label and enables validation markers |
 
 ---
 
 ### SmartButton
+Premium button with bounce animation and loading state.
 
-Full-featured button with **bounce animation**, loading state, prefix/suffix image support.
-
-```dart
-// Default button
-SmartButton(
-  title: 'Submit',
-  onTap: () => print('submitted'),
-  isLoading: false,
-  isEnabled: true,
-  activeBackgroundColor: Colors.blue,
-  prefixImage: 'assets/icons/send.svg',
-  height: 52.0,
-  borderRadius: BorderRadius.circular(12),
-)
-
-// White outlined variant
-SmartButton.white(
-  title: 'Cancel',
-  onTap: () {},
-  borderColor: Colors.blue,
-)
-```
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|---|---|---|
-| `title` | `String` | Button label |
-| `onTap` | `VoidCallback` | Tap callback |
-| `isLoading` | `bool` | Shows `SmartCircularProgressIndicator` |
-| `isEnabled` | `bool` | Disables tap and applies disable style |
-| `isShadow` | `bool` | Adds colored drop shadow |
-| `isWhite` | `bool` | White background with colored border |
-| `prefixImage` | `String?` | Path to prefix icon (any `SmartImage` type) |
-| `suffixImage` | `String?` | Path to suffix icon |
-| `height` / `width` | `double?` | Button dimensions |
-| `activeBackgroundColor` | `Color?` | Active state background |
-| `disableBackgroundColor` | `Color?` | Disabled state background |
-| `borderRadius` | `BorderRadiusGeometry?` | Corner radius |
-| `titleStyle` | `TextStyle?` | Active title style (merged with config) |
-| `boxShadow` | `BoxShadow?` | Custom shadow |
-
----
-
-### SmartSingleChildScrollView
-
-Scroll view with **pull-to-refresh**, automatic keyboard dismiss, and `SafeArea` support.
-
-```dart
-SmartSingleChildScrollView(
-  safeArea: true,
-  padding: EdgeInsets.all(16),
-  onRefresh: () async {
-    await loadData();
-  },
-  child: Column(
-    children: [...],
-  ),
-)
-```
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `title` | `String` | **Required** | Button text label |
+| `onTap` | `VoidCallback` | **Required** | Tap callback |
+| `isLoading` | `bool` | `false` | Replaces title with a loader |
+| `isEnabled` | `bool` | `true` | Enables/disables the button |
+| `prefixImage` | `String?` | `null` | Icon path for start of button |
+| `suffixImage` | `String?` | `null` | Icon path for end of button |
+| `isWhite` | `bool` | `false` | Use `.white` variant for outlined style |
+| `activeBackgroundColor`| `Color?` | `config` | Background color |
+| `height` / `width` | `double?` | `config` | Dimensions |
 
 ---
 
 ### SmartImage
-
-Universal image loader — supports **assets, files, network, SVG, and Lottie** with 4 animated loading styles.
-
-```dart
-// Asset image
-SmartImage(path: 'assets/images/banner.png', width: 200, height: 120)
-
-// Network image with shimmer loading
-SmartImage(
-  path: 'https://example.com/photo.jpg',
-  size: 80,                     // sets both height & width
-  imageBorderRadius: BorderRadius.circular(40),
-  animationType: LoadingAnimationType.shimmer,
-  showLoadingAnimation: true,
-  onTap: () => openPhoto(),
-)
-
-// SVG (auto-detected by .svg extension)
-SmartImage(path: 'assets/icons/logo.svg', color: Colors.white)
-
-// Network SVG
-SmartImage(path: 'https://example.com/icon.svg', size: 32)
-
-// Lottie animation (auto-detected by .json extension)
-SmartImage(path: 'assets/animations/success.json', size: 120)
-
-// Custom decoration
-SmartImage(
-  path: 'https://example.com/cover.jpg',
-  height: 200,
-  width: double.infinity,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(16),
-    boxShadow: [BoxShadow(blurRadius: 8, color: Colors.black26)],
-  ),
-  fit: BoxFit.cover,
-)
-```
-
-**New parameters in v0.0.4:**
+Universal image loader for all types.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `size` | `double?` | – | Shortcut: sets both `height` and `width` |
-| `clipBehavior` | `Clip` | `Clip.none` | Container clip behavior |
-| `decoration` | `Decoration?` | – | Overrides default `BoxDecoration` |
-| `alignment` | `AlignmentGeometry?` | – | Child alignment within container |
-| `animationType` | `LoadingAnimationType` | `shimmer` | Shimmer / pulse / skeleton / wave |
-| `showLoadingAnimation` | `bool` | `true` | Toggle animated vs. static placeholder |
+| `path` | `String` | **Required** | Image URI (Asset, URL, Local File, SVG, Lottie) |
+| `size` | `double?` | `null` | Shortcut for both width and height |
+| `fit` | `BoxFit` | `config` | How to fit the image |
+| `imageBorderRadius` | `BorderRadius?` | `config` | Corner rounding |
+| `animationType` | `LoadingAnimationType`| `shimmer` | `shimmer`, `pulse`, `skeleton`, `wave` |
+| `onTap` | `VoidCallback?` | `null` | Interaction callback |
 
-**Loading animation types:**
+---
 
-| Type | Description |
-|---|---|
-| `shimmer` | Horizontal shimmer sweep (default) |
-| `pulse` | Fade in/out pulsing effect |
-| `skeleton` | Card-shaped skeleton blocks |
-| `wave` | Diagonal gradient wave |
+### SmartDropDown
+Modal bottom sheet selection widget.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `items` | `List<SmartDropDownItem>` | **Required** | List of items to select from |
+| `selectedItem` | `T?` | `null` | Currently selected item |
+| `onChanged` | `ValueChanged<T?>` | **Required** | Selection callback |
+| `canSearch` | `bool` | `false` | Enables search filtering in the bottom sheet |
+| `hintText` | `String?` | `null` | Button placeholder |
+| `errorText` | `String?` | `null` | Validation error message |
+
+---
+
+### SmartSingleChildScrollView
+Enhanced `SingleChildScrollView` with pull-to-refresh.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `child` | `Widget` | **Required** | Scrollable content |
+| `onRefresh` | `RefreshCallback?` | `null` | Enables pull-to-refresh |
+| `safeArea` | `bool` | `config` | Wraps view in `SafeArea` |
+| `padding` | `EdgeInsetsGeometry?` | `config` | Inner padding |
 
 ---
 
 ### SmartExpansionTile
-
-Animated expand/collapse tile with configurable trailing icons and PageStorage control.
-
-```dart
-SmartExpansionTile(
-  title: SmartText('FAQ Item', style: TextStyle(fontWeight: FontWeight.w600)),
-  initiallyExpanded: false,
-  isDisablePageStorage: true,   // always starts collapsed (no state persistence)
-  trailingCollapsedIconVisible: true,
-  onExpansionChanged: (expanded) => print('expanded: $expanded'),
-  children: [
-    Padding(
-      padding: EdgeInsets.all(12),
-      child: SmartText('Answer content here...'),
-    ),
-  ],
-)
-```
-
-**New in v0.0.4:**
+Animated expand/collapse tile.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `isDisablePageStorage` | `bool` | `false` | Disables PageStorage — tile always uses `initiallyExpanded` |
+| `title` | `Widget` | **Required** | Header content |
+| `children` | `List<Widget>` | `[]` | Expandable content |
+| `initiallyExpanded` | `bool`| `false` | Starting state |
+| `isDisablePageStorage`| `bool` | `false` | Don't persist state on scroll |
 
 ---
 
-### SmartCircularProgressIndicator
+### SmartTabBar
+Self-contained `TabBar` + `TabBarView` manager.
 
-Configurable circular progress indicator — used internally by `SmartButton`.
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `length` | `int` | **Required** | Number of tabs |
+| `tabs` | `List<Widget>` | **Required** | Tab header widgets |
+| `tabBarView`| `List<Widget>` | **Required** | Tab content widgets |
+| `isExpanded`| `bool` | `true` | Whether views should expand to fill space |
 
-```dart
-SmartCircularProgressIndicator(
-  size: 32,
-  color: Colors.white,
-  strokeWidth: 3,
-  padding: EdgeInsets.all(8),
-)
-```
+---
+
+### SmartStepper
+Animated vertical timeline/stepper.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `currentStep`| `int` | **Required** | Current active index |
+| `steps` | `List<SmartStep>` | **Required** | Step titles and content |
+| `isDashedLine`| `bool` | `true` | Style of the connecting line |
+
+---
+
+### SmartNoDataFound
+Standard empty state display.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `text` | `String?` | `config` | Main message |
+| `subText` | `String?` | `null` | Detailed description |
+| `imagePath` | `String?` | `config` | Path to empty-state illustration |
+| `onRetry` | `VoidCallback?` | `null` | Optional retry button callback |
+
+---
+
+### SmartAppBar / SmartCommonAppBar
+Highly configurable navigation headers.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `title` | `String?` | AppBar title |
+| `isBack` | `bool` | Show back button (Navigator.pop default) |
+| `leadingImage` | `String?` | Custom leading icon/logo |
+| `onSearch`/`onFavorite` | `VoidCallback?` | Common action triggers |
+| `profileImageUrl` | `String?` | Shows circular avatar (CommonAppBar) |
+
+---
+
+### SmartCheckbox & SmartRadioButton
+Custom selection controls.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `label` | `String?` | Text label next to control |
+| `value` | `T` / `bool` | Current selection state |
+| `onChanged` | `ValueChanged` | Toggle callback |
+| `isToggle` | `bool` | Allows deselecting currently active radio |
+
+---
+
+### SmartDashedDivider & SmartGradientContainer
+Decorative line widgets.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `axis` | `Axis` | Horizontal or Vertical (Divider) |
+| `dashWidth` / `dashSpace` | `double` | Dashing configuration |
+| `color` / `colors` | `Color/List` | Line colors (GradientContainer defaults to fade) |
+| `height` / `width` | `double?` | Explicit dimensions |
 
 ---
 
 ## 🛠 Global Configuration
 
-`SmartDevWidgetsConfig` is a **singleton** — call `initialize()` once at startup.
-
-### Full Config Reference
+Initialize `SmartDevWidgetsConfig` once in `main()` to set default styles across the entire app.
 
 ```dart
 SmartDevWidgetsConfig().initialize(
-  // ── SmartColumn ─────────────────────────────────────────────
+  // SmartColumn
+  columnMainAxisSize: MainAxisSize.max,
   columnMainAxisAlignment: MainAxisAlignment.start,
-  columnCrossAxisAlignment: CrossAxisAlignment.center,
   columnSpacing: 0,
   columnPadding: null,
-  columnMargin: null,
   columnIsInkwell: false,
   columnIsSafeArea: false,
-  columnDecoration: null,
 
-  // ── SmartRow ─────────────────────────────────────────────────
-  rowMainAxisAlignment: MainAxisAlignment.start,
-  rowCrossAxisAlignment: CrossAxisAlignment.center,
-  rowSpacing: 0,                    // new in 0.0.4
-  rowPadding: null,
-  rowMargin: null,
-  rowDecoration: null,
+  // SmartRow
+  rowMainAxisSize: MainAxisSize.max,
+  rowSpacing: 0,
 
-  // ── SmartText ────────────────────────────────────────────────
-  textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-  textColor: null,
-  textFontWeight: null,
-  textOptionalPadding: null,        // renamed from textOptionalPaddings
-  textOverflow: null,
-  textAlign: null,
-  textMaxLines: null,
+  // SmartText
+  textStyle: TextStyle(fontSize: 14, color: Colors.black),
   textIsAutoSizeText: false,
 
-  // ── SmartButton ──────────────────────────────────────────────
+  // SmartButton
   buttonHeight: 48.0,
   buttonActiveBackgroundColor: Colors.blue,
-  buttonDisableBackgroundColor: Colors.grey,
   buttonBorderRadius: BorderRadius.circular(8),
   buttonTitleStyle: TextStyle(fontSize: 16, color: Colors.white),
-  buttonIsShadow: false,
-  buttonIsWhite: false,
-  buttonImageSize: 24.0,
 
-  // ── SmartSingleChildScrollView ───────────────────────────────
-  scrollViewSafeArea: false,
-  scrollViewPadding: null,
-  scrollViewKeyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-
-  // ── SmartImage ───────────────────────────────────────────────
-  imageHeight: 100.0,
-  imageWidth: 100.0,
-  imageFit: BoxFit.cover,
-  imagePlaceholderPath: 'assets/images/placeholder.png',
-  imageLoadingColor: Colors.blue,
-  imageLoadingAnimationType: LoadingAnimationType.shimmer,  // new in 0.0.4
-  imageShowLoadingAnimation: true,                          // new in 0.0.4
-  imageShape: BoxShape.rectangle,
-  imageIsMemCacheEnabled: true,
-
-  // ── SmartExpansionTile ───────────────────────────────────────
-  expansionTileAnimationDuration: Duration(milliseconds: 200),
-  expansionTileAnimationCurve: Curves.easeInOut,
-  expansionTileTrailingExpandedIconPath: 'assets/images/arrow_up.svg',
-  expansionTileTrailingCollapsedIconPath: 'assets/images/arrow_down.svg',
-  expansionTileTrailingCollapsedIconVisible: true,
-  expansionTileUsePageStorage: true,
-
-  // ── SmartTextField ──────────────────────────────────────────
+  // SmartTextField
   textFieldStyle: TextStyle(fontSize: 14, color: Colors.black87),
-  textFieldHintStyle: TextStyle(fontSize: 14, color: Colors.grey),
-  textFieldLabelStyle: TextStyle(fontSize: 12, color: Colors.grey),
-  textFieldErrorStyle: TextStyle(fontSize: 12, color: Colors.red),
   textFieldFillColor: Color(0xFFF5F5F5),
   textFieldEnabledBorderColor: Color(0xFFDDDDDD),
   textFieldFocusedBorderColor: Colors.blue,
-  textFieldDisabledBorderColor: Color(0xFFEEEEEE),
-  textFieldErrorBorderColor: Colors.red,
-  textFieldCursorColor: Colors.black87,
 
-  // ── SmartCheckbox ───────────────────────────────────────────
+  // SmartImage
+  imageFit: BoxFit.cover,
+  imageHeight: 100.0,
+  imageWidth: 100.0,
+  imageLoadingAnimationType: LoadingAnimationType.shimmer,
+
+  // SmartExpansionTile
+  expansionTileAnimationDuration: Duration(milliseconds: 200),
+  expansionTileTrailingExpandedIconPath: 'assets/images/arrow_up.svg',
+  expansionTileTrailingCollapsedIconPath: 'assets/images/arrow_down.svg',
+
+  // SmartCheckbox / Radio
   checkboxActiveColor: Colors.blue,
-  checkboxCheckColor: Colors.white,
   checkboxBorderColor: Colors.grey,
-  checkboxLabelStyle: TextStyle(fontSize: 14, color: Colors.black87),
-
-  // ── SmartRadioButton ────────────────────────────────────────
   radioButtonActiveColor: Colors.blue,
-  radioButtonInactiveColor: Colors.grey,
-  radioButtonTextStyle: TextStyle(fontSize: 14, color: Colors.black87),
 
-  // ── SmartDropDown ───────────────────────────────────────────
-  dropdownBackgroundColor: Colors.white,
-
-  // ── SmartAppBar / SmartCommonAppBar ─────────────────────────
-  appBarBackgroundColor: Colors.white,
-  appBarTitleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black87),
-
-  // ── SmartStepper ────────────────────────────────────────────
+  // SmartStepper
   stepperActiveColor: Colors.blue,
   stepperCompletedColor: Colors.green,
-  stepperUpcomingColor: Colors.grey,
 
-  // ── SmartTabBar ─────────────────────────────────────────────
-  tabBarDividerColor: null,
-  tabBarUnselectedLabelColor: null,
-  tabBarLabelStyle: null,
-  tabBarUnselectedLabelStyle: null,
-
-  // ── SmartNoDataFound ────────────────────────────────────────
+  // SmartNoDataFound
   noDataFoundImagePath: 'assets/images/placeholder.png',
   noDataFoundText: 'No data found',
-  noDataFoundRetryText: 'Retry',
 );
 ```
 

@@ -8,8 +8,8 @@ enum LoadingAnimationType { shimmer, pulse, skeleton, wave }
 
 extension ImageTypeExtension on String {
   ImageType get imageType {
-    if (toLowerCase().endsWith('.svg')) return ImageType.svg;
-    if (toLowerCase().endsWith('.json')) return ImageType.lottieAsset;
+    if (_pathEndsWith(this, '.svg')) return ImageType.svg;
+    if (_pathEndsWith(this, '.json')) return ImageType.lottieAsset;
     if (startsWith('http://') || startsWith('https://')) {
       return ImageType.network;
     }
@@ -17,5 +17,20 @@ extension ImageTypeExtension on String {
     return ImageType.asset;
   }
 
-  bool get isSvgUrl => toLowerCase().endsWith('.svg');
+  bool get isSvgUrl => _pathEndsWith(this, '.svg');
+}
+
+bool _pathEndsWith(String value, String extension) {
+  final trimmed = value.trim();
+  if (trimmed.isEmpty) return false;
+
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    final uri = Uri.tryParse(trimmed);
+    if (uri != null) {
+      return uri.path.toLowerCase().endsWith(extension);
+    }
+  }
+
+  final withoutQuery = trimmed.split('?').first.split('#').first;
+  return withoutQuery.toLowerCase().endsWith(extension);
 }

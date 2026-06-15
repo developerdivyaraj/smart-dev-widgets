@@ -1,3 +1,6 @@
+## 0.0.7
+- **SmartImage**: Fix network SVG and Lottie JSON detection by correctly parsing URLs with query parameters or fragments (e.g. Shopify CDN URLs).
+
 ## 0.0.6
 - Modernized dependencies to their latest stable versions (`flutter_svg`, `lottie`, `flutter_lints`).
 - Fixed flow-control linting issues to comply with new `flutter_lints` 6.0.0 rules.
